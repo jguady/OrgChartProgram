@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrgChartProgram.iml" filepath="$PROJECT_DIR$/.idea/modules/OrgChartProgram.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrgChartProgram_main.iml" filepath="$PROJECT_DIR$/.idea/modules/OrgChartProgram_main.iml" group="OrgChartProgram" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrgChartProgram_test.iml" filepath="$PROJECT_DIR$/.idea/modules/OrgChartProgram_test.iml" group="OrgChartProgram" />
+    </modules>
+  </component>
+</project>
