@@ -53,14 +53,14 @@ public class OrgCollectionTest {
             collection.addOrg(testOrg);
         }
 
-        assertEquals(resultMessage(100,collection.size()),100, collection.size());
+        assertEquals(100, collection.size());
 
         for(Integer id: ids)
         {
             collection.removeOrg(id);
         }
 
-        assertEquals(resultMessage(0,collection.size()),0, collection.size());
+        assertEquals(0, collection.size());
         assertTrue(collection.isEmpty());
     }
     @Test
@@ -86,10 +86,10 @@ public class OrgCollectionTest {
 
     }
 
-    public String resultMessage(Object expected, Object actual)
-    {
-        return "Assert Failed: Expected [" + expected + "] Actual [" + actual + "]";
-    }
+//    public String resultMessage(Object expected, Object actual)
+//    {
+//        return "Assert Failed: Expected [" + expected + "] Actual [" + actual + "]";
+//    }
 
 
 

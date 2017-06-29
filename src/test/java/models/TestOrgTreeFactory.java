@@ -22,6 +22,9 @@ public class TestOrgTreeFactory {
         } else if (type.toUpperCase().equals("ALLROOTTREE")) {
             result = buildAllRootTree();
         }
+        else if (type.toUpperCase().equals("ORDERTESTTREE")) {
+            result = buildComplexOrderTree();
+        }
         return result;
     }
 
@@ -56,26 +59,46 @@ public class TestOrgTreeFactory {
     List<Org> buildDoubleRootNodeTree() {
         Org root = new Org(1, "Root", Optional.empty());
         Org child1 = new Org(2, "Child", Optional.of(1));
-        Org child2 = new Org(3, "Root", Optional.empty());
 
         root.addChildOrg(child1);
 
         List<Org> result = new ArrayList<>();
         result.add(root);
         result.add(child1);
-        //result.add(child2);
         return result;
     }
 
     List<Org> buildAllRootTree() {
         Org root = new Org(1, "Root", Optional.empty());
-        Org root1 = new Org(2, "Root", Optional.empty());
-        Org root2 = new Org(3, "Root", Optional.empty());
 
         List<Org> result = new ArrayList<>();
         result.add(root);
-//        result.add(root1);
-//        result.add(root2);
+        return result;
+    }
+
+    List<Org> buildComplexOrderTree()
+    {
+        Org orgA = new Org(1, "Root", Optional.empty());
+        Org orgB = new Org(2, "Child", Optional.of(1));
+        Org orgC = new Org(3, "Child", Optional.of(2));
+        Org orgD = new Org(4, "Child", Optional.of(1));
+        Org orgE = new Org(5, "Child", Optional.of(2));
+        // A-> B, D
+        orgA.addChildOrg(orgB);
+        orgA.addChildOrg(orgD);
+        // B-> C, E
+        orgB.addChildOrg(orgC);
+        orgB.addChildOrg(orgE);
+
+        List<Org> result = new ArrayList<>();
+        //Order should be
+        // A D B E C
+        result.add(orgA);
+        result.add(orgD);
+        result.add(orgB);
+        result.add(orgE);
+        result.add(orgC);
+
         return result;
     }
 

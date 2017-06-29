@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guady on 6/27/2017.
@@ -31,17 +32,24 @@ public class Org implements IOrg {
 
     @Override
     public int getTotalNumUsers() {
-        return users.size();
+        int size = users.size();
+        size += childOrgs.stream().collect(Collectors.summingInt((Org::getTotalNumUsers)));
+        return size;
     }
+
 
     @Override
     public int getTotalNumFiles() {
-        return this.totalNumFiles;
+        int files = users.stream().collect(Collectors.summingInt(User::getNumFiles));
+        files += childOrgs.stream().collect(Collectors.summingInt((Org::getTotalNumFiles)));
+        return files;
     }
 
     @Override
     public int getTotalNumBytes() {
-        return this.totalNumBytes;
+        int bytes = users.stream().collect(Collectors.summingInt(User::getNumBytes));
+        bytes += childOrgs.stream().collect(Collectors.summingInt((Org::getTotalNumBytes)));
+        return bytes;
     }
 
     @Override
@@ -52,8 +60,7 @@ public class Org implements IOrg {
     public void addUser(User user)
     {
         users.add(user);
-        totalNumBytes +=user.getNumBytes();
-        totalNumFiles +=user.getNumFiles();
+
     }
 
     public boolean removeUser(User user)
