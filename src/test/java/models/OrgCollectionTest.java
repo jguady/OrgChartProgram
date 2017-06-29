@@ -32,7 +32,7 @@ public class OrgCollectionTest {
     public void getOrg() throws Exception {
         OrgCollection collection = OrgCollection.getInstance();
         int id = new Random().nextInt();
-        Org testOrg = new Org(id,"TestOrg");
+        Org testOrg = new Org(id,"TestOrg",OrgCollection.getInstance());
         collection.addOrg(testOrg);
 
         Org actualOrg = collection.getOrg(id);
@@ -49,7 +49,7 @@ public class OrgCollectionTest {
         {
             int id = new Random().nextInt();
             ids.add(id);
-            Org testOrg = new Org(id,"TestOrg"+i);
+            Org testOrg = new Org(id,"TestOrg"+i,OrgCollection.getInstance());
             collection.addOrg(testOrg);
         }
 
@@ -66,9 +66,9 @@ public class OrgCollectionTest {
     @Test
     public void getAllRoots()
     {
-        Org orgA = new Org(1, "Root", Optional.empty());
-        Org orgB = new Org(2, "Child", Optional.of(1));
-        Org orgC = new Org(3, "Root", Optional.empty());
+        Org orgA = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
+        Org orgB = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org orgC = new Org(3, "Root", Optional.empty(),OrgCollection.getInstance());
 
         List<Org> expected = new ArrayList<>();
         expected.add(orgA);

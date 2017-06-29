@@ -82,9 +82,9 @@ public class OrgCollectionGetOrgTreeTest {
     public void getOrgTreeTwoNodeTree()
     {
         OrgCollection collection = OrgCollection.getInstance();
-        Org orgA = new Org(1, "Root", Optional.empty());
-        Org orgB = new Org(2, "Child", Optional.of(1));
-        Org orgC = new Org(3, "Child", Optional.of(1));
+        Org orgA = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
+        Org orgB = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org orgC = new Org(3, "Child", Optional.of(1),OrgCollection.getInstance());
 
         orgA.addChildOrg(orgC);
         orgA.addChildOrg(orgB);
@@ -106,9 +106,9 @@ public class OrgCollectionGetOrgTreeTest {
     public void getOrgTreeOneChildPerNode()
     {
         OrgCollection collection = OrgCollection.getInstance();
-        Org orgA = new Org(1, "Root", Optional.empty());
-        Org orgB = new Org(2, "Child", Optional.of(1));
-        Org orgC = new Org(3, "Child", Optional.of(2));
+        Org orgA = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
+        Org orgB = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org orgC = new Org(3, "Child", Optional.of(2),OrgCollection.getInstance());
 
         orgA.addChildOrg(orgC);
         orgA.addChildOrg(orgB);
@@ -130,11 +130,11 @@ public class OrgCollectionGetOrgTreeTest {
     public void getOrgTreeOrder()
     {
         OrgCollection collection = OrgCollection.getInstance();
-        Org orgA = new Org(1, "Root", Optional.empty());
-        Org orgB = new Org(2, "Child", Optional.of(1));
-        Org orgC = new Org(3, "Child", Optional.of(2));
-        Org orgD = new Org(4, "Child", Optional.of(1));
-        Org orgE = new Org(5, "Child", Optional.of(3));
+        Org orgA = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
+        Org orgB = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org orgC = new Org(3, "Child", Optional.of(2),OrgCollection.getInstance());
+        Org orgD = new Org(4, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org orgE = new Org(5, "Child", Optional.of(3),OrgCollection.getInstance());
 
         // 1-> 2,4
         orgA.addChildOrg(orgB);

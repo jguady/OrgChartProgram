@@ -29,9 +29,9 @@ public class TestOrgTreeFactory {
     }
 
     List<Org> buildTwoChildTree() {
-        Org root = new Org(1, "Root", Optional.empty());
-        Org child1 = new Org(2, "Child", Optional.of(1));
-        Org child2 = new Org(3, "Child", Optional.of(1));
+        Org root = new Org(1, "Root", Optional.empty(), OrgCollection.getInstance());
+        Org child1 = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org child2 = new Org(3, "Child", Optional.of(1),OrgCollection.getInstance());
         root.addChildOrg(child1);
         root.addChildOrg(child2);
 
@@ -43,9 +43,9 @@ public class TestOrgTreeFactory {
     }
 
     List<Org> buildOneChildPerNodeTree() {
-        Org root = new Org(1, "Root", Optional.empty());
-        Org child1 = new Org(2, "Child", Optional.of(1));
-        Org child2 = new Org(3, "Child", Optional.of(2));
+        Org root = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
+        Org child1 = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org child2 = new Org(3, "Child", Optional.of(2),OrgCollection.getInstance());
 
         root.addChildOrg(child1);
         child1.addChildOrg(child2);
@@ -57,8 +57,8 @@ public class TestOrgTreeFactory {
     }
 
     List<Org> buildDoubleRootNodeTree() {
-        Org root = new Org(1, "Root", Optional.empty());
-        Org child1 = new Org(2, "Child", Optional.of(1));
+        Org root = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
+        Org child1 = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
 
         root.addChildOrg(child1);
 
@@ -69,7 +69,7 @@ public class TestOrgTreeFactory {
     }
 
     List<Org> buildAllRootTree() {
-        Org root = new Org(1, "Root", Optional.empty());
+        Org root = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
 
         List<Org> result = new ArrayList<>();
         result.add(root);
@@ -78,11 +78,11 @@ public class TestOrgTreeFactory {
 
     List<Org> buildComplexOrderTree()
     {
-        Org orgA = new Org(1, "Root", Optional.empty());
-        Org orgB = new Org(2, "Child", Optional.of(1));
-        Org orgC = new Org(3, "Child", Optional.of(2));
-        Org orgD = new Org(4, "Child", Optional.of(1));
-        Org orgE = new Org(5, "Child", Optional.of(2));
+        Org orgA = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
+        Org orgB = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org orgC = new Org(3, "Child", Optional.of(2),OrgCollection.getInstance());
+        Org orgD = new Org(4, "Child", Optional.of(1),OrgCollection.getInstance());
+        Org orgE = new Org(5, "Child", Optional.of(2),OrgCollection.getInstance());
         // A-> B, D
         orgA.addChildOrg(orgB);
         orgA.addChildOrg(orgD);
