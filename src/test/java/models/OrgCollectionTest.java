@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -32,13 +31,13 @@ public class OrgCollectionTest {
     public void getOrg() throws Exception {
         OrgCollection collection = OrgCollection.getInstance();
         int id = new Random().nextInt();
-        Org testOrg = new Org(id,"TestOrg",OrgCollection.getInstance());
+        Org testOrg = new Org(id,"TestOrg");
         collection.addOrg(testOrg);
 
         Org actualOrg = collection.getOrg(id);
 
         assertEquals(testOrg.getOrgId(),actualOrg.getOrgId());
-        assertEquals(testOrg.getOrgName(),actualOrg.getOrgName());
+        assertEquals(testOrg.getName(),actualOrg.getName());
     }
 
     @Test
@@ -49,7 +48,7 @@ public class OrgCollectionTest {
         {
             int id = new Random().nextInt();
             ids.add(id);
-            Org testOrg = new Org(id,"TestOrg"+i,OrgCollection.getInstance());
+            Org testOrg = new Org(id,"TestOrg"+i);
             collection.addOrg(testOrg);
         }
 
@@ -66,9 +65,9 @@ public class OrgCollectionTest {
     @Test
     public void getAllRoots()
     {
-        Org orgA = new Org(1, "Root", Optional.empty(),OrgCollection.getInstance());
-        Org orgB = new Org(2, "Child", Optional.of(1),OrgCollection.getInstance());
-        Org orgC = new Org(3, "Root", Optional.empty(),OrgCollection.getInstance());
+        Org orgA = new Org(1, "Root", null);
+        Org orgB = new Org(2, "Child", 1);
+        Org orgC = new Org(3, "Root", null);
 
         List<Org> expected = new ArrayList<>();
         expected.add(orgA);
@@ -85,12 +84,4 @@ public class OrgCollectionTest {
 
 
     }
-
-//    public String resultMessage(Object expected, Object actual)
-//    {
-//        return "Assert Failed: Expected [" + expected + "] Actual [" + actual + "]";
-//    }
-
-
-
 }

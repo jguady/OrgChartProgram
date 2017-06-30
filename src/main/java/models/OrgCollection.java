@@ -21,7 +21,7 @@ public class OrgCollection implements IOrgCollection{
     }
 
     @Override
-    public Org getOrg(int orgId) {
+    public Org getOrg(Integer orgId) {
         return orgMap.get(orgId);
     }
 
@@ -38,25 +38,9 @@ public class OrgCollection implements IOrgCollection{
     @Override
     public List<Org> getOrgTree(int orgId, boolean inclusive) {
         Org rootOrg = orgMap.get(orgId);
-        //if inclusive create a new list with org in it
         List<Org> results = new ArrayList<>();
 
-        //add all children of org to list
-        //Queue<Org> queue = new LinkedList<>();
-//        List<Org> childOrgs = rootOrg.getChildOrgs();
-//        queue.addAll(childOrgs);
-//        results.addAll(childOrgs);
-//        while(!queue.isEmpty())
-//        {
-//            Org currentOrg = queue.remove();
-//            List<Org> childOrgs = currentOrg.getChildOrgs();
-//            results.addAll(childOrgs);
-//            queue.addAll(childOrgs);
-//        }
-
-
-
-        Deque<Org> stack = new LinkedList<>();
+        Stack<Org> stack = new Stack<>();
         stack.push(rootOrg);
 
         while(!stack.isEmpty())
@@ -67,25 +51,12 @@ public class OrgCollection implements IOrgCollection{
             for (Org child :childOrgs)
             {
                 stack.push(child);
-
             }
         }
         if(!inclusive)
             results.remove(0);
 
-//        do{
-//            Org currentOrg = stack.pop();
-//
-//            List<Org> childOrgs = currentOrg.getChildOrgs();
-//
-//
-//        }
-//        while(!stack.isEmpty());
-
         return results;
-        //Make a queue add all children
-        //while list is not empty add children to list and queue children
-
     }
 
     public int size()
@@ -99,9 +70,8 @@ public class OrgCollection implements IOrgCollection{
 
     public List<Org> getAllRoots()
     {
-
         return orgMap.values().stream()
-                .filter(org -> !org.getParentOrgId().isPresent())
+                .filter(org -> org.getParentOrgId() == null)
                 .collect(Collectors.toList());
     }
 

@@ -1,34 +1,65 @@
 import models.Org;
 import models.OrgCollection;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by Guady on 6/27/2017.
  */
-public class OrgChartWriter
-{
-    private static final char DEFAULT_DELIMITER = ',';
-    private static final char DEFAULT_INDENT_CHARACTER = '\t';
+public class OrgChartWriter {
 
-    public static void writeOrgTree(String fileName)
-    {
-        String path = File.pathSeparator+"resources"+File.pathSeparator+fileName;
-        File file = new File(path);
+    public static void writeOrgTree(String fileName, List<Org> roots) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("OrgChartText.txt"), StandardOpenOption.CREATE)) {
+            for (Org root : roots) {
+                Stack<Integer> stack = new Stack<>();
+                int indentLevel = 0;
 
-        List<Org> orgs = OrgCollection.getInstance().getAllRoots();
-        List<Integer> visited = new ArrayList<>();
-        StringBuilder indents = new StringBuilder();
-        StringBuilder result = new StringBuilder();
-        for(Org org: orgs)
-        {
-            //result = org.printOrgTree(Writer writer);
-            visited.add(org.getOrgId());
+                writer.write(root.toString());
+                writer.newLine();
+
+                List<Org> tree = OrgCollection.getInstance().getOrgTree(root.getOrgId(), false);
+
+                for (Org node : tree) {
+                    int index = stack.search(node.getParentOrgId());
+                    if (index == -1) {
+                        // parent not in stack (aka depth increased)
+                        stack.add(node.getParentOrgId());
+                        indentLevel++;
+                    }
+                    else if(index>1){
+                        // depth decreased
+                        //index is 1 based so we subtract 1 to adjust
+                        indentLevel = indentLevel-(index-1);
+                        for (; index > 1; index--) {
+                            stack.pop();
+                        }
+                    }
+
+                    writer.write(getIndentLevel(indentLevel).append(node.toString()).toString());
+                    writer.newLine();
+                }
+            }
+        } catch (IOException x) {
+            System.err.format("IOException: %s%n", x);
         }
+    }
 
+    private static StringBuilder getIndentLevel(int indents)
+    {
+        StringBuilder tabs = new StringBuilder();
+        for(;indents>0;indents--)
+        {
+            tabs.append('\t');
+        }
+        return tabs;
     }
 
 }
+
+

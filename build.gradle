@@ -40,3 +40,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+apply plugin: 'application'
+
+mainClassName = 'OrgChartProgram'

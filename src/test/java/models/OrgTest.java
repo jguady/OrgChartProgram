@@ -115,4 +115,10 @@ public class OrgTest {
         assertEquals(3584,testTree.get(0).getTotalNumBytes());
 
     }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void addOrgCreatesCycle()
+    {
+        testTree = TestOrgTreeFactory.get().createTree("ComplexCycleTree");
+    }
 }

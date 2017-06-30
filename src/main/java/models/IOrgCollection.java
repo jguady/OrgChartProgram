@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface IOrgCollection {
 
-    IOrg getOrg(int orgId);
+    IOrg getOrg(Integer orgId);
 
     List<Org> getOrgTree(int orgId, boolean inclusive);
 }

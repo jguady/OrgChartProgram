@@ -1,39 +1,31 @@
 package models;
 
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
  * Created by Guady on 6/27/2017.
  */
-public class Org implements IOrg, Registerable {
+public class Org implements IOrg {
 
     private int orgId;
-    private Optional<Integer> parentOrgId;
-    private String orgName;
-    private int totalNumFiles = 0;
-    private int totalNumBytes = 0;
+    private Integer parentOrgId;
+    private String name;
     private List<User> users = new ArrayList<>();
     private List<Org> childOrgs = new ArrayList<>();
-    private OrgCollection orgCollection;
 
-    public Org(OrgCollection orgCollection) {
-        this.orgCollection = orgCollection;
+    public Org() {
     }
 
-    public Org(int orgId, String orgName, OrgCollection orgCollection) {
-        this(orgId, orgName, Optional.empty(), orgCollection);
+    public Org(int orgId, String name) {
+        this(orgId, name, null);
     }
 
-    public Org(int orgId, String orgName, Optional<Integer> parentOrgId, OrgCollection orgCollection) {
+    public Org(int orgId, String name, Integer parentOrgId) {
         this.orgId = orgId;
-        this.orgName = orgName;
+        this.name = name;
         this.parentOrgId = parentOrgId;
-        this.orgCollection = orgCollection;
     }
 
     @Override
@@ -71,12 +63,22 @@ public class Org implements IOrg, Registerable {
         return users.remove(user);
     }
 
-    public void addChildOrg(Org childOrg) {
+    public void addChildOrg(Org childOrg) throws UnsupportedOperationException {
+        if(this.getOrgId() == childOrg.getOrgId())
+            throw new UnsupportedOperationException("Self Referenced Org Detected :"+ this.orgId);
+        long matches = childOrg.getChildOrgs().stream().filter(child -> child.getOrgId() == this.orgId).count();
+        if(matches>0)
+            throw new UnsupportedOperationException("Org Cycle Detected :"+ this.orgId + " child: " + childOrg.getOrgId());
+
+
         childOrgs.add(childOrg);
     }
 
     public void removeChildOrg(Org childOrg) {
-        childOrgs.removeIf(org -> org.getOrgId() == childOrg.getOrgId());
+        throw new UnsupportedOperationException("Method not yet implemented");
+        //TODO: Implement RemoveChildOrg
+//        childOrgs.removeIf(org -> org.getOrgId() == childOrg.getOrgId());
+//        childOrg.setParentOrgId(null);
     }
 
     public int getOrgId() {
@@ -87,34 +89,34 @@ public class Org implements IOrg, Registerable {
         this.orgId = orgId;
     }
 
-    public Optional<Integer> getParentOrgId() {
+    public Integer getParentOrgId() {
         return parentOrgId;
     }
 
-    public void setParentOrgId(Optional<Integer> parentOrgId) {
+    public void setParentOrgId(Integer parentOrgId) {
         this.parentOrgId = parentOrgId;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public String getName() {
+        return name;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
-    public void register() {
-        orgCollection.addOrg(this);
-        parentOrgId.ifPresent(orgId -> orgCollection.getOrg(orgId).addChildOrg(this));
-    }
-
-    public void printOrgTree(Writer writer)
+    public String toString()
     {
-        StringBuilder string = new StringBuilder();
+        StringBuilder str = new StringBuilder();
+        str.append(orgId);
+        str.append(',');
+        str.append(getTotalNumUsers());
+        str.append(',');
+        str.append(getTotalNumFiles());
+        str.append(',');
+        str.append(getTotalNumBytes());
 
-        //Output this org
-
-
+        return str.toString();
     }
 }
