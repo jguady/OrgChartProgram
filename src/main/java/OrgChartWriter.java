@@ -15,7 +15,7 @@ import java.util.Stack;
 public class OrgChartWriter {
 
     public static void writeOrgTree(String fileName, List<Org> roots) {
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("OrgChartText.txt"), StandardOpenOption.CREATE)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("OrgChartText.txt"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             for (Org root : roots) {
                 Stack<Integer> stack = new Stack<>();
                 int indentLevel = 0;

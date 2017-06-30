@@ -6,6 +6,7 @@ import models.User;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,18 +19,17 @@ public class CSVReaderUtil {
     private static final char DEFAULT_DELIMITER = ',';
     private static final char DEFAULT_ENCLOSING_CHARACTER = '"';
 
-    public List<User> readUserFile(String filePath, boolean hasHeaders)
-    {
-        File file = new File(getClass().getClassLoader().getResource(filePath).getFile());
+    public List<User> readUserFile(String filePath, boolean hasHeaders) throws FileNotFoundException {
+
+        File file = new File(Paths.get(filePath).toUri());
         return readFile(file, new UserMapper(), hasHeaders);
     }
-    public List<Org> readOrgFile(String filePath, boolean hasHeaders)
-    {
-        File file = new File(getClass().getClassLoader().getResource(filePath).getFile());
+    public List<Org> readOrgFile(String filePath, boolean hasHeaders) throws FileNotFoundException {
+        File file = new File(Paths.get(filePath).toUri());
         return readFile(file, new OrgMapper(), hasHeaders);
     }
 
-    private static <T> List<T> readFile(File file, Mapper<T> mapper, boolean hasHeaders) {
+    private static <T> List<T> readFile(File file, Mapper<T> mapper, boolean hasHeaders) throws FileNotFoundException {
 
         List<T> results = new ArrayList<>();
         List<String> headers = new ArrayList<>();
@@ -44,8 +44,6 @@ public class CSVReaderUtil {
                 T object = hasHeaders ? mapper.map(headers,line) : mapper.map(line);
                 results.add(object);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
         return results;
     }
